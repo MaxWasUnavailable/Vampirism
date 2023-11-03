@@ -1,9 +1,6 @@
 {
-  "__comment": "Add the following line on the same level as a 'model' declaration.",
+  "parent": "vampirism:block/bat_cage2",
   "loader": "forge:obj",
   "flip-v": true,
-  "model": "vampirism:models/block/bat_cage.obj",
-  "textures": {
-    "particle": "minecraft:block/dirt"
-  }
+  "model": "vampirism:models/block/bat_cage.obj"
 }

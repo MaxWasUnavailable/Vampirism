@@ -1,12 +1,17 @@
-# Made in Blockbench 3.8.4
-newmtl m_0
-map_Kd minecraft:block/dark_oak_planks
-newmtl m_1
-map_Kd minecraft:block/spruce_planks
-newmtl m_3
-map_Kd minecraft:block/oak_planks
-newmtl m_4
-map_Kd minecraft:block/gray_concrete
-newmtl m_6
-map_Kd vampirism:block/dark_steel
-newmtl none
+# Blender 3.6.4 MTL File: 'untitled.blend'
+# www.blender.org
+
+newmtl m_3862681f-5096-660d-31dc-7635448708d6
+map_Kd #oak
+
+newmtl m_535cc4c2-b80e-c05c-eb50-a97c1ca46b58
+map_Kd #spruce
+
+newmtl m_66455eda-8dc9-5097-4019-cc1e511cec6d
+map_Kd #concrete
+
+newmtl m_d64b6ef5-7c5d-1a4d-5fca-0e2814549e01
+map_Kd #dark_oak
+
+newmtl m_e43e4006-e0ce-0eaf-31ef-01351c31eab2
+map_Kd #gold

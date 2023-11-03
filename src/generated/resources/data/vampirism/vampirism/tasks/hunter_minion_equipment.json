@@ -13,15 +13,6 @@
         }
       },
       {
-        "type": "vampirism:entity",
-        "amount": 5,
-        "description": {
-          "translate": "entity.vampirism.vampire_baron"
-        },
-        "entityType": "vampirism:vampire_baron",
-        "id": "vampirism:vampire_baron"
-      },
-      {
         "type": "vampirism:entity_type",
         "amount": 4,
         "description": {
@@ -29,6 +20,15 @@
         },
         "entityType": "vampirism:advanced_vampire",
         "id": "vampirism:advanced_vampire"
+      },
+      {
+        "type": "vampirism:entity",
+        "amount": 5,
+        "description": {
+          "translate": "entity.vampirism.vampire_baron"
+        },
+        "entityType": "vampirism:vampire_baron",
+        "id": "vampirism:vampire_baron"
       }
     ]
   },
