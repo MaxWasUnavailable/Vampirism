@@ -8,6 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ref
-        run: echo ${{ github.ref }}
+        run: echo ${{ github.ref_name }}
       - name: branch
         run: echo ${{ github.event.repository.default_branch }}
