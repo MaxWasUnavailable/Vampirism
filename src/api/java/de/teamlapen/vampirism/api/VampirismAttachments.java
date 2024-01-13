@@ -24,8 +24,8 @@ public class VampirismAttachments {
     public static class Keys {
         public static final ResourceLocation EXTENDED_CREATURE = new ResourceLocation(VReference.MODID, "extended_creature");
         public static final ResourceLocation FACTION_PLAYER_HANDLER = new ResourceLocation(VReference.MODID, "faction_player_handler");
-        public static final ResourceLocation VAMPIRE_PLAYER = new ResourceLocation(VReference.MODID, "vampire_player");
-        public static final ResourceLocation HUNTER_PLAYER = new ResourceLocation(VReference.MODID, "hunter_player");
+        public static final ResourceLocation VAMPIRE_PLAYER = new ResourceLocation(VReference.MODID, "vampire");
+        public static final ResourceLocation HUNTER_PLAYER = new ResourceLocation(VReference.MODID, "hunter");
         public static final ResourceLocation GARLIC_HANDLER = new ResourceLocation(VReference.MODID, "garlic_handler");
         public static final ResourceLocation FOG_HANDLER = new ResourceLocation(VReference.MODID, "fog_handler");
         public static final ResourceLocation DAMAGE_HANDLER = new ResourceLocation(VReference.MODID, "damage_handler");

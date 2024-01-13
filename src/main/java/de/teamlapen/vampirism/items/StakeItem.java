@@ -38,24 +38,17 @@ import java.util.List;
  */
 public class StakeItem extends VampirismSwordItem implements IVampireFinisher {
     public static boolean canKillInstant(@NotNull LivingEntity target, LivingEntity attacker) {
-        boolean instaKillFromBehind = false;
         boolean instaKillLowHealth = false;
         if (attacker instanceof Player && attacker.isAlive()) {
             @Nullable IFactionPlayer<?> factionPlayer = FactionPlayerHandler.getOpt((Player) attacker).flatMap(FactionPlayerHandler::getCurrentFactionPlayer).orElse(null);
             if (factionPlayer != null && factionPlayer.getFaction().equals(VReference.HUNTER_FACTION)) {
                 ISkillHandler<?> skillHandler = factionPlayer.getSkillHandler();
-                if (skillHandler.isSkillEnabled(HunterSkills.STAKE2.get())) {
-                    instaKillFromBehind = true;
-                }
                 if (skillHandler.isSkillEnabled(HunterSkills.STAKE1.get())) {
                     instaKillLowHealth = true;
                 }
             }
         } else if (attacker instanceof IAdvancedHunter) {
             instaKillLowHealth = true;// make more out of this
-        }
-        if (instaKillFromBehind && !UtilLib.canReallySee(target, attacker, true)) {
-            return !(VampirismConfig.BALANCE.hsInstantKill2OnlyNPC.get() && target instanceof Player) && target.getMaxHealth() < VampirismConfig.BALANCE.hsInstantKill2MaxHealth.get();
         }
         if (instaKillLowHealth && target.getHealth() <= (VampirismConfig.BALANCE.hsInstantKill1MaxHealth.get() * target.getMaxHealth())) {
             return !VampirismConfig.BALANCE.hsInstantKill1FromBehind.get() || !UtilLib.canReallySee(target, attacker, true);

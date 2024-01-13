@@ -60,6 +60,7 @@ public class ModEffects {
             .addAttributeModifier(Attributes.ARMOR_TOUGHNESS, "45ebd53a-14fa-4ede-b4e7-412e075a8b5f", -0.4, AttributeModifier.Operation.MULTIPLY_TOTAL)
             .addAttributeModifier(Attributes.ARMOR, "45ebd53a-14fa-4ede-b4e7-412e075a8b5f", -0.2, AttributeModifier.Operation.MULTIPLY_TOTAL)
     );
+    public static final DeferredHolder<MobEffect, BleedingEffect> BLEEDING = EFFECTS.register("bleeding", () -> new BleedingEffect(MobEffectCategory.HARMFUL, 0x740000));
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static MobEffect modded_night_vision;  //Substituted version

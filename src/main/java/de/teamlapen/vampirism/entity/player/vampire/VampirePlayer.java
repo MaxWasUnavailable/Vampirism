@@ -10,6 +10,7 @@ import de.teamlapen.vampirism.advancements.critereon.VampireActionCriterionTrigg
 import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.VampirismAttachments;
 import de.teamlapen.vampirism.api.entity.IBiteableEntity;
 import de.teamlapen.vampirism.api.entity.IExtendedCreatureVampirism;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
@@ -99,7 +100,6 @@ import java.util.function.Predicate;
  * Main class for Vampire Players.
  */
 public class VampirePlayer extends FactionBasePlayer<IVampirePlayer> implements IVampirePlayer {
-    public static final ResourceLocation SERIALIZER_ID = new ResourceLocation(REFERENCE.MODID, "vampire_player");
     public final static UUID NATURAL_ARMOR_UUID = UUID.fromString("17dcf6d2-30ac-4730-b16a-528353d0abe5");
     private static final Logger LOGGER = LogManager.getLogger(VampirePlayer.class);
     private final static int FEED_TIMER = 20;
@@ -393,7 +393,7 @@ public class VampirePlayer extends FactionBasePlayer<IVampirePlayer> implements 
 
     @Override
     public @NotNull ResourceLocation getAttachmentKey() {
-        return SERIALIZER_ID;
+        return VampirismAttachments.Keys.VAMPIRE_PLAYER;
     }
 
     public int getDbnoDuration() {
