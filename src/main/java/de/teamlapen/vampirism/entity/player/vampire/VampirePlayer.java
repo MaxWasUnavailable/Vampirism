@@ -2,6 +2,7 @@ package de.teamlapen.vampirism.entity.player.vampire;
 
 import de.teamlapen.lib.HelperLib;
 import de.teamlapen.lib.VampLib;
+import de.teamlapen.lib.lib.network.ISyncable;
 import de.teamlapen.lib.lib.util.UtilLib;
 import de.teamlapen.lib.util.ISoundReference;
 import de.teamlapen.vampirism.REFERENCE;
@@ -13,7 +14,9 @@ import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.VampirismAttachments;
 import de.teamlapen.vampirism.api.entity.IBiteableEntity;
 import de.teamlapen.vampirism.api.entity.IExtendedCreatureVampirism;
+import de.teamlapen.vampirism.api.entity.factions.IDisguise;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
 import de.teamlapen.vampirism.api.entity.player.vampire.IBloodStats;
@@ -167,12 +170,14 @@ public class VampirePlayer extends FactionBasePlayer<IVampirePlayer> implements 
      */
     @Nullable
     private Component dbnoMessage;
+    private final Disguise disguise;
 
     public VampirePlayer(Player player) {
         super(player);
         bloodStats = new BloodStats(player);
         actionHandler = new ActionHandler<>(this);
         skillHandler = new SkillHandler<>(this, VReference.VAMPIRE_FACTION);
+        this.disguise = new Disguise();
     }
 
     @Override
@@ -405,9 +410,8 @@ public class VampirePlayer extends FactionBasePlayer<IVampirePlayer> implements 
     }
 
     @Override
-    @Nullable
-    public IFaction<?> getDisguisedAs() {
-        return isDisguised() ? getSpecialAttributes().disguisedAs : getFaction();
+    public IDisguise getDisguise() {
+        return this.disguise;
     }
 
     /**
@@ -1147,6 +1151,7 @@ public class VampirePlayer extends FactionBasePlayer<IVampirePlayer> implements 
             }
         }
 
+        this.disguise.loadUpdateFromNBT(nbt.getCompound("disguise"));
         bloodStats.loadUpdate(nbt);
         actionHandler.readUpdateFromServer(nbt.getCompound("action_handler"));
         skillHandler.readUpdateFromServer(nbt.getCompound("skill_handler"));
@@ -1172,6 +1177,7 @@ public class VampirePlayer extends FactionBasePlayer<IVampirePlayer> implements 
         nbt.put(KEY_VISION, this.vision.createTag());
         nbt.putInt(KEY_DBNO_TIMER, getDbnoTimer());
         if (dbnoMessage != null) nbt.putString(KEY_DBNO_MSG, Component.Serializer.toJson(dbnoMessage));
+        nbt.put("disguise", this.disguise.writeFullUpdateToNBT());
         return nbt;
     }
 
@@ -1408,6 +1414,64 @@ public class VampirePlayer extends FactionBasePlayer<IVampirePlayer> implements 
             (minion.getMinionData()).ifPresent(b -> ((VampireMinionEntity.VampireMinionData) b).setIncreasedStats(enabled));
             HelperLib.sync(minion);
         }));
+    }
+
+    private class Disguise implements IDisguise, ISyncable {
+
+        private boolean isDisguised;
+        private @Nullable IPlayableFaction<?> disguiseFaction = getOriginalFaction();
+
+        @Override
+        public void unDisguise() {
+            disguiseAs(getOriginalFaction());
+        }
+
+        @Override
+        public void disguiseAs(@Nullable IPlayableFaction<?> faction) {
+            this.disguiseFaction = faction;
+            this.isDisguised = faction != getOriginalFaction();
+            getSpecialAttributes().disguised = this.isDisguised;
+            player.refreshDisplayName();
+            if (!player.level().isClientSide) {
+                CompoundTag sync = new CompoundTag();
+                sync.put("disguise", writeFullUpdateToNBT());
+                sync(sync, true);
+            }
+        }
+
+        @Override
+        public @NotNull IPlayableFaction<?> getOriginalFaction() {
+            return getFaction();
+        }
+
+        @Override
+        public @Nullable IPlayableFaction<?> getViewedFaction(@Nullable IFaction<?> viewerFaction) {
+            return disguiseFaction;
+        }
+
+        @Override
+        public boolean isDisguised() {
+            return this.isDisguised;
+        }
+
+        @Override
+        public void loadUpdateFromNBT(CompoundTag nbt) {
+            if (nbt.contains("disguise")) {
+                String disguise = nbt.getString("disguise");
+                if (disguise.isEmpty()) {
+                    disguiseAs(null);
+                } else {
+                    disguiseAs((IPlayableFaction<?>) VampirismAPI.factionRegistry().getFactionByID(new ResourceLocation(disguise)));
+                }
+            }
+        }
+
+        @Override
+        public CompoundTag writeFullUpdateToNBT() {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("disguise", disguiseFaction == null ? "" : disguiseFaction.getID().toString());
+            return tag;
+        }
     }
 
     private class VisionStatus {

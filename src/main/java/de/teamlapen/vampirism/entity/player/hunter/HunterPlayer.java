@@ -8,7 +8,9 @@ import de.teamlapen.vampirism.api.VReference;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.VampirismAttachments;
 import de.teamlapen.vampirism.api.entity.effect.EffectInstanceWithSource;
+import de.teamlapen.vampirism.api.entity.factions.IDisguise;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.actions.IActionHandler;
 import de.teamlapen.vampirism.api.entity.player.hunter.IHunterPlayer;
 import de.teamlapen.vampirism.api.entity.player.skills.ISkillHandler;
@@ -48,6 +50,7 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
 import net.neoforged.neoforge.event.TickEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -69,11 +72,13 @@ public class HunterPlayer extends FactionBasePlayer<IHunterPlayer> implements IH
 
     private final @NotNull ActionHandler<IHunterPlayer> actionHandler;
     private final @NotNull SkillHandler<IHunterPlayer> skillHandler;
+    private final @NotNull Disguise disguise;
 
     public HunterPlayer(Player player) {
         super(player);
         actionHandler = new ActionHandler<>(this);
         skillHandler = new SkillHandler<>(this, VReference.HUNTER_FACTION);
+        this.disguise = new Disguise();
     }
 
     @Override
@@ -97,8 +102,8 @@ public class HunterPlayer extends FactionBasePlayer<IHunterPlayer> implements IH
     }
 
     @Override
-    public IFaction<?> getDisguisedAs() {
-        return player.hasEffect(ModEffects.DISGUISE_AS_VAMPIRE.get()) ? VReference.VAMPIRE_FACTION : getFaction();
+    public IDisguise getDisguise() {
+        return this.disguise;
     }
 
     @Override
@@ -307,6 +312,34 @@ public class HunterPlayer extends FactionBasePlayer<IHunterPlayer> implements IH
             (minion.getMinionData()).ifPresent(b -> ((HunterMinionEntity.HunterMinionData) b).setIncreasedStats(increasedStats));
             HelperLib.sync(minion);
         }));
+    }
+
+    public class Disguise implements IDisguise {
+
+        @Override
+        public @NotNull IPlayableFaction<?> getOriginalFaction() {
+            return getFaction();
+        }
+
+        @Override
+        public @Nullable IPlayableFaction<?> getViewedFaction(@Nullable IFaction<?> viewerFaction) {
+            return player.hasEffect(ModEffects.DISGUISE_AS_VAMPIRE.get()) ? VReference.VAMPIRE_FACTION : getOriginalFaction();
+        }
+
+        @Override
+        public void disguiseAs(@Nullable IPlayableFaction<?> faction) {
+
+        }
+
+        @Override
+        public void unDisguise() {
+
+        }
+
+        @Override
+        public boolean isDisguised() {
+            return false;
+        }
     }
 
     public static class Serializer implements IAttachmentSerializer<CompoundTag, HunterPlayer> {

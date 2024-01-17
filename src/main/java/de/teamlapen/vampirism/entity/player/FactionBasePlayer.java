@@ -4,6 +4,9 @@ import de.teamlapen.lib.HelperLib;
 import de.teamlapen.lib.lib.entity.IPlayerEventListener;
 import de.teamlapen.lib.lib.network.ISyncable;
 import de.teamlapen.vampirism.api.VampirismAPI;
+import de.teamlapen.vampirism.api.entity.factions.IDisguise;
+import de.teamlapen.vampirism.api.entity.factions.IFaction;
+import de.teamlapen.vampirism.api.entity.factions.IPlayableFaction;
 import de.teamlapen.vampirism.api.entity.player.IFactionPlayer;
 import de.teamlapen.vampirism.config.VampirismConfig;
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +32,7 @@ public abstract class FactionBasePlayer<T extends IFactionPlayer<T>> implements 
      * {@code @NotNull} on server, otherwise {@code null}
      */
     private final @Nullable TaskManager taskManager;
+    private final IDisguise disguise;
 
     public FactionBasePlayer(Player player) {
         this.player = player;
@@ -37,6 +41,7 @@ public abstract class FactionBasePlayer<T extends IFactionPlayer<T>> implements 
         } else {
             this.taskManager = null;
         }
+        this.disguise = new Disguise(this.getFaction());
     }
 
 
@@ -96,6 +101,11 @@ public abstract class FactionBasePlayer<T extends IFactionPlayer<T>> implements 
         if (!isRemote()) {
             this.taskManager.tick();
         }
+    }
+
+    @Override
+    public IDisguise getDisguise() {
+        return this.disguise;
     }
 
     /**
@@ -158,5 +168,39 @@ public abstract class FactionBasePlayer<T extends IFactionPlayer<T>> implements 
         this.taskManager.writeNBT(taskManager);
         tag.put("task_manager", taskManager);
         return tag;
+    }
+
+    private static class Disguise implements IDisguise {
+
+        private final IPlayableFaction<?> faction;
+
+        public Disguise(IPlayableFaction<?> faction) {
+            this.faction = faction;
+        }
+
+        @Override
+        public @NotNull IPlayableFaction<?> getOriginalFaction() {
+            return this.faction;
+        }
+
+        @Override
+        public @Nullable IPlayableFaction<?> getViewedFaction(@Nullable IFaction<?> viewerFaction) {
+            return this.faction;
+        }
+
+        @Override
+        public void disguiseAs(@Nullable IPlayableFaction<?> faction) {
+
+        }
+
+        @Override
+        public void unDisguise() {
+
+        }
+
+        @Override
+        public boolean isDisguised() {
+            return false;
+        }
     }
 }

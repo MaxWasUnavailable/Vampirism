@@ -1,6 +1,7 @@
 package de.teamlapen.vampirism.entity.player;
 
 import com.google.common.collect.ImmutableList;
+import de.teamlapen.vampirism.VampirismMod;
 import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VampirismAPI;
 import de.teamlapen.vampirism.api.entity.factions.IFaction;
@@ -412,7 +413,7 @@ public class ModPlayerEventHandler {
     public void onPlayerName(PlayerEvent.@NotNull NameFormat event) {
         if (event.getEntity() != null && VampirismConfig.SERVER.factionColorInChat.get()) {
             FactionPlayerHandler.getOpt(event.getEntity()).ifPresent(fph -> fph.getCurrentFactionPlayer().ifPresent(fp -> {
-                IFaction<?> f = fp.getDisguisedAs();
+                IFaction<?> f = fp.getDisguise().getViewedFaction(Optional.ofNullable(VampirismMod.proxy.getClientPlayer()).flatMap(FactionPlayerHandler::getOpt).map(FactionPlayerHandler::getCurrentFaction).orElse(null));
                 if (f != null) {
                     MutableComponent displayName;
                     if (fph.getLordLevel() > 0 && VampirismConfig.SERVER.lordPrefixInChat.get()) {
