@@ -48,7 +48,6 @@ public class AwarenessHunterAction extends DefaultHunterAction implements ILasti
 
     @Override
     public void onDeactivated(@NotNull IHunterPlayer player) {
-        ((HunterPlayer) player).getSpecialAttributes().nearbyVampire(0);
     }
 
     @Override
@@ -58,29 +57,12 @@ public class AwarenessHunterAction extends DefaultHunterAction implements ILasti
 
     @Override
     public boolean onUpdate(@NotNull IHunterPlayer player) {
-        if (player.getRepresentingEntity().getCommandSenderWorld().isClientSide() && player.getRepresentingEntity().tickCount % 8 == 0) {
-            double dist = nearbyVampire(player);
-            double p = 0;
-            if (dist != Double.MAX_VALUE) {
-                p = 1f - (dist / (float) VampirismConfig.BALANCE.haAwarenessRadius.get());
-            }
-            ((HunterPlayer) player).getSpecialAttributes().nearbyVampire(p);
-        }
         return false;
     }
 
     @Override
     protected boolean activate(IHunterPlayer player, ActivationContext context) {
         return true;
-    }
-
-    private double nearbyVampire(@NotNull IHunterPlayer player) {
-        int r = VampirismConfig.BALANCE.haAwarenessRadius.get();
-        LivingEntity closestVampire = player.getRepresentingEntity().getCommandSenderWorld().getNearestEntity(LivingEntity.class, vampirePredicate, null, player.getRepresentingEntity().getX(), player.getRepresentingEntity().getY(), player.getRepresentingEntity().getZ(), new AABB(player.getRepresentingEntity().getX() - r, player.getRepresentingEntity().getY()
-                - r + 1, player.getRepresentingEntity().getZ()
-                - r, player.getRepresentingEntity().getX() + r, player.getRepresentingEntity().getY() + r + 1, player.getRepresentingEntity().getZ() + r));
-        if (closestVampire != null) return closestVampire.distanceTo(player.getRepresentingEntity());
-        return Double.MAX_VALUE;
     }
 
     @Override
