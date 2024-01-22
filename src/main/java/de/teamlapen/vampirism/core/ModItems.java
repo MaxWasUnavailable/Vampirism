@@ -77,9 +77,9 @@ public class ModItems {
     public static final DeferredHolder<Item, ArmorOfSwiftnessItem> ARMOR_OF_SWIFTNESS_LEGS_ENHANCED = register("armor_of_swiftness_legs_enhanced", () -> new ArmorOfSwiftnessItem(ArmorItem.Type.LEGGINGS, ArmorOfSwiftnessItem.ENHANCED));
     public static final DeferredHolder<Item, ArmorOfSwiftnessItem> ARMOR_OF_SWIFTNESS_LEGS_ULTIMATE = register("armor_of_swiftness_legs_ultimate", () -> new ArmorOfSwiftnessItem(ArmorItem.Type.LEGGINGS, ArmorOfSwiftnessItem.ULTIMATE));
 
-    public static final DeferredHolder<Item, SingleCrossbowItem> BASIC_CROSSBOW = register("basic_crossbow", () -> new SingleCrossbowItem(props().defaultDurability(465), 1, 20, Tiers.WOOD, HunterSkills.BASIC_CROSSBOW));
-    public static final DeferredHolder<Item, DoubleCrossbowItem> BASIC_DOUBLE_CROSSBOW = register("basic_double_crossbow", () -> new DoubleCrossbowItem(props().durability(465), 1, 20, Tiers.WOOD, HunterSkills.BASIC_CROSSBOW));
-    public static final DeferredHolder<Item, TechCrossbowItem> BASIC_TECH_CROSSBOW = register("basic_tech_crossbow", () -> new TechCrossbowItem(props().durability(930), 1.6F, 40, Tiers.DIAMOND, HunterSkills.BASIC_CROSSBOW));
+    public static final DeferredHolder<Item, SingleCrossbowItem> BASIC_CROSSBOW = register("basic_crossbow", () -> new SingleCrossbowItem(props().defaultDurability(465), 1, 20, Tiers.WOOD, HunterSkills.WEAPON_TABLE));
+    public static final DeferredHolder<Item, DoubleCrossbowItem> BASIC_DOUBLE_CROSSBOW = register("basic_double_crossbow", () -> new DoubleCrossbowItem(props().durability(465), 1, 20, Tiers.WOOD, HunterSkills.WEAPON_TABLE));
+    public static final DeferredHolder<Item, TechCrossbowItem> BASIC_TECH_CROSSBOW = register("basic_tech_crossbow", () -> new TechCrossbowItem(props().durability(930), 1.6F, 40, Tiers.DIAMOND, HunterSkills.WEAPON_TABLE));
 
     public static final DeferredHolder<Item, BloodBottleItem> BLOOD_BOTTLE = ITEMS.register("blood_bottle", BloodBottleItem::new);
     public static final DeferredHolder<Item, BucketItem> BLOOD_BUCKET = register("blood_bucket", CreativeModeTabs.TOOLS_AND_UTILITIES, () -> new BucketItem(ModFluids.BLOOD, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
