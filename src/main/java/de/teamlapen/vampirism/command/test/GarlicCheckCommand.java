@@ -5,7 +5,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import de.teamlapen.lib.lib.util.BasicCommand;
 import de.teamlapen.vampirism.api.EnumStrength;
 import de.teamlapen.vampirism.api.VampirismAPI;
-import de.teamlapen.vampirism.world.LevelGarlic;
+import de.teamlapen.vampirism.world.garlic.GarlicLevel;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -30,7 +30,7 @@ public class GarlicCheckCommand extends BasicCommand {
             commandSource.sendSuccess(() -> Component.translatable("command.vampirism.test.garliccheck.strength", VampirismAPI.getGarlicHandler(asPlayer.getCommandSenderWorld()).map(w -> w.getStrengthAtChunk(new ChunkPos(asPlayer.blockPosition()))).orElse(EnumStrength.NONE)), true);
         }
         if (print) {
-            LevelGarlic.getOpt(asPlayer.getCommandSenderWorld()).ifPresent(vw -> vw.printDebug(commandSource));
+            GarlicLevel.getOpt(asPlayer.getCommandSenderWorld()).ifPresent(vw -> vw.printDebug(commandSource));
         }
         return 0;
     }

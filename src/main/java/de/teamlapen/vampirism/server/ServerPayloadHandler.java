@@ -24,6 +24,7 @@ import de.teamlapen.vampirism.inventory.HunterBasicMenu;
 import de.teamlapen.vampirism.inventory.HunterTrainerMenu;
 import de.teamlapen.vampirism.inventory.RevertBackMenu;
 import de.teamlapen.vampirism.inventory.VampireBeaconMenu;
+import de.teamlapen.vampirism.inventory.diffuser.PlayerOwnedMenu;
 import de.teamlapen.vampirism.items.OblivionItem;
 import de.teamlapen.vampirism.items.VampirismVampireSwordItem;
 import de.teamlapen.vampirism.network.*;
@@ -300,5 +301,14 @@ public class ServerPayloadHandler {
 
     public void handleBloodValuesCompletedPacket(CustomPacketPayload packetPayload, ConfigurationPayloadContext configurationPayloadContext) {
         configurationPayloadContext.taskCompletedHandler().onTaskCompleted(BloodValuesTask.TYPE);
+    }
+
+    public void handlePlayerOwnedBlockEntityLockPacket(PlayerOwnedBlockEntityLockPacket msg, PlayPayloadContext context) {
+        context.player().ifPresent(player -> {
+            if (player.containerMenu instanceof PlayerOwnedMenu menu && player.containerMenu.containerId == msg.menuId() && menu.isOwner(player)) {
+                menu.updateLockStatus(msg.lockData().getLockStatus());
+                context.replyHandler().send(menu.updatePackage());
+            }
+        });
     }
 }
