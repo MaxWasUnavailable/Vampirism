@@ -167,11 +167,11 @@ public class ModItems {
 
     public static final DeferredHolder<Item, PitchforkItem> PITCHFORK = register("pitchfork", PitchforkItem::new);
 
-    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_0 = register("pure_blood_0", () -> fogDiffuser(288000,new PureBloodItem(0)));
-    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_1 = register("pure_blood_1", () -> fogDiffuser(432000,new PureBloodItem(1)));
-    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_2 = register("pure_blood_2", () -> fogDiffuser(864000,new PureBloodItem(2)));
-    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_3 = register("pure_blood_3", () -> fogDiffuser(1296000,new PureBloodItem(3)));
-    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_4 = register("pure_blood_4", () -> fogDiffuser(1728000,new PureBloodItem(4)));
+    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_0 = register("pure_blood_0", () -> fogDiffuser(288000, new PureBloodItem(0)));
+    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_1 = register("pure_blood_1", () -> fogDiffuser(432000, new PureBloodItem(1)));
+    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_2 = register("pure_blood_2", () -> fogDiffuser(864000, new PureBloodItem(2)));
+    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_3 = register("pure_blood_3", () -> fogDiffuser(1296000, new PureBloodItem(3)));
+    public static final DeferredHolder<Item, PureBloodItem> PURE_BLOOD_4 = register("pure_blood_4", () -> fogDiffuser(1728000, new PureBloodItem(4)));
 
     public static final DeferredHolder<Item, Item> PURIFIED_GARLIC = register("purified_garlic", () -> garlicDiffuser(108000, new Item(props().stacksTo(16))));
     public static final DeferredHolder<Item, Item> PURE_SALT = register("pure_salt", () -> new Item(props()));
